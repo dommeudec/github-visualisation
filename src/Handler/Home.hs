@@ -3,11 +3,16 @@
 {-# LANGUAGE TemplateHaskell #-}
 {-# LANGUAGE MultiParamTypeClasses #-}
 {-# LANGUAGE TypeFamilies #-}
+{-# LANGUAGE DeriveAnyClass #-}
+{-# LANGUAGE DeriveGeneric #-}
+
 module Handler.Home where
 
 import Import
 import Yesod.Form.Bootstrap3 (BootstrapFormLayout (..), renderBootstrap3)
 import Text.Julius (RawJS (..))
+import Data.Aeson
+import System.Random (randomRIO)
 
 -- Define our data that will be used for creating the form.
 data FileForm = FileForm
@@ -65,3 +70,20 @@ sampleForm = renderBootstrap3 BootstrapBasicForm $ FileForm
 
 commentIds :: (Text, Text, Text)
 commentIds = ("js-commentForm", "js-createCommentTextarea", "js-commentList")
+
+data User = User { name :: String
+                 , commits :: Int
+                 } deriving (Generic, ToJSON)
+
+getUserDataR :: Handler Value
+getUserDataR = do
+  lst <- liftIO $ randomList ["Bill", "Ben","John", "Jane", "Tim", "Sam"]
+  return $ toJSON lst
+
+randomList :: [String] -> IO [User]
+randomList [] = return []
+randomList (x:xs) = do
+  r  <- randomRIO (10,40)
+  rs <- randomList xs
+  return (User x r:rs)
+  

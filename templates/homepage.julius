@@ -29,7 +29,7 @@ var svg = d3.select("#my_dataviz")
 	    }
 */
 
-d3.json("/static/json/users.json", function (error,data) {
+d3.json("/userdata", function (error,data) {
     
     // set the color scale
     var color = d3.scaleOrdinal()
