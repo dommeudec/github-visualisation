@@ -1,2 +1,7 @@
-<h1> This is a test of a simple pie chart page
-<div id="my_dataviz">
+<h1> My github visualisation </h1>
+<!-- Add 2 buttons -->
+<button onclick="update('commits')">Variable 1</button>
+<button onclick="update('repositories')">Variable 2</button>
+
+<!-- Create a div where the graph will take place -->
+<div id="my_dataviz"></div>

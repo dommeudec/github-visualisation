@@ -1,24 +1,30 @@
 [{
     "name": "Bill",
     "commits": 9
+    "repositories": 45
 },
 {
     "name": "Ben",
     "commits": 20
+    "repositories": 15
 },
 {
     "name": "John",
     "commits": 30
-}, 
+    "repositories": 4
+},
 {
      "name": "Jane",
      "commits": 8
+     "repositories": 33
 },
 {
      "name": "Tim",
      "commits": 12
+     "repositories": 27
 },
 {
      "name": "Sam",
      "commits": 20
+     "repositories": 8
 }]
