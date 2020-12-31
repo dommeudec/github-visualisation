@@ -83,6 +83,6 @@ getUserDataR = do
 randomList :: [String] -> IO [User]
 randomList [] = return []
 randomList (x:xs) = do
-  r  <- randomRIO (50,70)
+  r  <- randomRIO (10,70)
   rs <- randomList xs
   return (User x r:rs)
