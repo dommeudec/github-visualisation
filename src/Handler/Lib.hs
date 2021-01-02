@@ -63,7 +63,7 @@ testGitHubCall auth name =
         partitionEithers <$> mapM (getContribs auth name) repos >>= \case
 
           ([], contribs) ->
-            writeFile "/static/json/temp.json" (intercalate "\n\t" .
+            writeFile "temp1.json" (intercalate "\n\t" .
             map (\(GH.RepoContributor n c) -> "[" ++ show n ++ "," ++ show c ++ "]") .
             groupContributors $ concat contribs)
 

@@ -39,6 +39,10 @@ dependencies:
 - wai
 - foreign-store
 - random
+- servant-client
+- http-client
+- utf8-string
+
 
 # The library contains all of our application code. The executable
 # defined below is just a thin wrapper.
