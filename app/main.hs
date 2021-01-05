@@ -1,5 +1,8 @@
 import Prelude     (IO)
 import Application (appMain)
+import Handler.Lib
 
 main :: IO ()
-main = appMain
+main = do
+  someFunc
+  appMain

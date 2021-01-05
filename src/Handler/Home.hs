@@ -13,6 +13,10 @@ import Yesod.Form.Bootstrap3 (BootstrapFormLayout (..), renderBootstrap3)
 import Text.Julius (RawJS (..))
 import Data.Aeson
 import System.Random (randomRIO)
+import Handler.Lib
+import Data.ByteString.Char8 as BS
+import qualified Data.Text    as Text
+import qualified Data.Text.IO as Text
 
 -- Define our data that will be used for creating the form.
 data FileForm = FileForm
