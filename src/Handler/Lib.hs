@@ -25,50 +25,58 @@ import Data.List (intercalate, groupBy, sortBy)
 import Data.Either
 import           Servant.API                (BasicAuthData (..))
 import Data.ByteString.UTF8 (fromString)
+--import Data.Aeson.Text (encodeToLazyText)
+import Data.Aeson
+import Data.Aeson.Text (encodeToLazyText)
+import GHC.Generics
+import Data.Text.Lazy (Text)
+import Data.Text.Lazy.IO as I
+
 
 someFunc :: IO ()
 someFunc = do
-  putStrLn "GitHubCall started.."
+  Prelude.putStrLn "GitHubCall started.."
   (rName:user:token:_) <- getArgs
-  putStrLn $ "Name is " ++ rName
-  putStrLn $ "Github account for API call is " ++ user
-  putStrLn $ "Github token for api call is " ++ token
+  Prelude.putStrLn $ "Name is " ++ rName
+  Prelude.putStrLn $ "Github account for API call is " ++ user
+  Prelude.putStrLn $ "Github token for api call is " ++ token
 
   let auth = BasicAuthData (fromString user) (fromString token)
 
   testGitHubCall auth $ pack rName
-  putStrLn ".. call finished."
+  Prelude.putStrLn ".. call finished."
 
 
-testGitHubCall :: BasicAuthData -> Text -> IO ()
+testGitHubCall :: BasicAuthData -> Data.Text.Text -> IO ()
 testGitHubCall auth name =
 
   -- Call to get user info
   (SC.runClientM (GH.getUser (Just "haskell-app") auth name) =<< env) >>= \case
 
   Left err -> do
-    putStrLn $ "ERROR, getting user: " ++ show err
+    Prelude.putStrLn $ "ERROR, getting user: " ++ show err
   Right res -> do
-    putStrLn $ "User is: " ++ "\n\t" ++ show res
+    Prelude.putStrLn $ "User is: " ++ "\n\t" ++ show res
 
     -- Call to get user repositories
     (SC.runClientM (GH.getUserRepos (Just "haskell-app") auth name) =<< env) >>= \case
       Left err -> do
-        putStrLn $ "ERROR, retrieving repos: " ++ show err
+        Prelude.putStrLn $ "ERROR, retrieving repos: " ++ show err
       Right repos -> do
-        putStrLn $ "Repositories are:" ++ "\n\t" ++
+        Prelude.putStrLn $ "Repositories are:" ++ "\n\t" ++
           intercalate "\n\t" (map (\(GH.GitHubRepo n c b h) -> "[" ++ show n ++ ", " ++ show c ++ ", " ++ show b ++ ", " ++ show h ++ "]") repos)
 
       -- Call to get repositories' contributors, ordered by name
         partitionEithers <$> mapM (getContribs auth name) repos >>= \case
 
-          ([], contribs) ->
-            writeFile "temp1.json" (intercalate "\n\t" .
-            map (\(GH.RepoContributor n c) -> "[" ++ show n ++ "," ++ show c ++ "]") .
-            groupContributors $ concat contribs)
+          ([], contribs) -> do
+            lst <- ("[" ++ (intercalate "\n\t" .
+              map (\(GH.RepoContributor n c) -> "[" ++ show n ++ "," ++ show c ++ "]") .
+              groupContributors $ concat contribs) ++ "]")
+            Prelude.putStrLn $ "Getting contributors: " ++ show lst
 
           (ers, _)-> do
-            putStrLn $ "ERROR, getting contributors: " ++ show ers
+            Prelude.putStrLn $ "ERROR, getting contributors: " ++ show ers
 
               -- Call to get repositories' commits
               --partitionEithers <$> mapM (getCommits auth name) repos >>= \case
@@ -77,8 +85,6 @@ testGitHubCall auth name =
                   --putStrLn $ "Commits are: " ++ "\n\t" ++ show commits
                 --(ers, _)-> do
                   --putStrLn $ "ERROR, getting commits: " ++ show ers
-
-
 
   where env :: IO SC.ClientEnv
         env = do
