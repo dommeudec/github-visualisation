@@ -1,7 +1,7 @@
-<h1> My github visualisation </h1>
+<h1> GitHub Visualisation </h1>
 <!-- Add 2 buttons -->
-<button onclick="update('commits')">Variable 1</button>
-<button onclick="update('repositories')">Variable 2</button>
+<button onclick="update('commits')">Commits</button>
+<button onclick="update('repositories')">Repositories</button>
 
 <!-- Create a div where the graph will take place -->
 <div id="my_dataviz"></div>

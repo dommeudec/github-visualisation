@@ -1,9 +1,6 @@
 // This code originally taken from
 // https://www.d3-graph-gallery.com/graph/barplot_button_data_hard.html
 
-// This code originally taken from
-// https://www.d3-graph-gallery.com/graph/barplot_button_data_hard.html
-
 // set the dimensions and margins of the graph
 var margin = {top: 10, right: 30, bottom: 90, left: 40},
     width = 460 - margin.left - margin.right,
